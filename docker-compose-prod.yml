@@ -73,13 +73,13 @@ services:
         - traefik.docker.network=traefik-public
         - traefik.constraint-label=traefik-public
 
-        - traefik.http.routers.site_selecao-http.rule=Host(`${SERVER_NAME}`)
-        - traefik.http.routers.site_selecao-http.entrypoints=http
-        - traefik.http.routers.site_selecao-http.middlewares=https-redirect
-        - traefik.http.routers.site_selecao-https.rule=Host(`${SERVER_NAME}`)
-        - traefik.http.routers.site_selecao-https.entrypoints=https
-        - traefik.http.routers.site_selecao-https.tls=true
-        - traefik.http.services.site_selecao.loadbalancer.server.port=80
+        - traefik.http.routers.${APP_TAG}-http.rule=Host(`${SERVER_NAME}`)
+        - traefik.http.routers.${APP_TAG}-http.entrypoints=http
+        - traefik.http.routers.${APP_TAG}-http.middlewares=https-redirect
+        - traefik.http.routers.${APP_TAG}-https.rule=Host(`${SERVER_NAME}`)
+        - traefik.http.routers.${APP_TAG}-https.entrypoints=https
+        - traefik.http.routers.${APP_TAG}-https.tls=true
+        - traefik.http.services.${APP_TAG}.loadbalancer.server.port=80
 
   scheduler:
     image: ${REGISTRY}:${DOCKER_TAG}
