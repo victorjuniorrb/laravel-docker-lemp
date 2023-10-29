@@ -13,8 +13,8 @@ services:
       - MYSQL_DATABASE=${LARAVEL_DB_NAME}
       - LARAVEL_DB_HOST=${LARAVEL_DB_HOST:-db-server.cett.org.br}
       # - FORCE_MIGRATE=force
-      - FORCE_COMPOSER_UPDATE=yes
-      # - APP_NAME=${APP_NAME}
+      # - FORCE_COMPOSER_UPDATE=yes
+      - APP_NAME=${APP_NAME}
     logging:
       driver: "json-file"
       options:
@@ -25,13 +25,6 @@ services:
       replicas: 1
       restart_policy:
         condition: any
-      resources:
-        limits:
-          cpus: "0.2"
-          memory: 100M
-        reservations:
-          cpus: "0.1"
-          memory: 50M
       placement:
         constraints:
           - node.labels.workload.prod == yes
@@ -83,10 +76,10 @@ services:
 
   scheduler:
     image: ${REGISTRY}:${DOCKER_TAG}
-    build:
-      context: laravel/
+    networks:
+      - web-private
     volumes:
-      - ${LARAVEL_DATA_DIR:-./laravel-project}:/var/www/html
+      - laravel_data:/var/www/html
     environment:
       - MYSQL_USER=${LARAVEL_DB_USER:-app}
       - MYSQL_PASSWORD=${LARAVEL_DB_USER:-password}
@@ -106,23 +99,16 @@ services:
       replicas: 1
       restart_policy:
         condition: any
-      resources:
-        limits:
-          cpus: "0.2"
-          memory: 100M
-        reservations:
-          cpus: "0.1"
-          memory: 50M
       placement:
         constraints:
           - node.labels.workload.prod == yes
 
   queue-default:
     image: ${REGISTRY}:${DOCKER_TAG}
-    build:
-      context: laravel/
+    networks:
+      - web-private
     volumes:
-      - ${LARAVEL_DATA_DIR:-./laravel-project}:/var/www/html
+      - laravel_data:/var/www/html
     environment:
       - MYSQL_USER=${LARAVEL_DB_USER:-app}
       - MYSQL_PASSWORD=${LARAVEL_DB_USER:-password}
@@ -143,13 +129,6 @@ services:
       replicas: 1
       restart_policy:
         condition: any
-      resources:
-        limits:
-          cpus: "0.2"
-          memory: 100M
-        reservations:
-          cpus: "0.1"
-          memory: 50M
       placement:
         constraints:
           - node.labels.workload.prod == yes
