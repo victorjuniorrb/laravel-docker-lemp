@@ -12,8 +12,8 @@ services:
       - MYSQL_PASSWORD=${LARAVEL_DB_PASSWORD}
       - MYSQL_DATABASE=${LARAVEL_DB_NAME}
       - LARAVEL_DB_HOST=${LARAVEL_DB_HOST:-db-server.cett.org.br}
-      # - FORCE_MIGRATE=force
-      # - FORCE_COMPOSER_UPDATE=yes
+      - FORCE_MIGRATE=force
+      - FORCE_COMPOSER_UPDATE=yes
       - APP_NAME=${APP_NAME}
     logging:
       driver: "json-file"
@@ -36,7 +36,9 @@ services:
       - web-private
     volumes:
       - laravel_data:/var/www/html:ro
-      - nginx_config:/etc/nginx/templates:ro
+    configs:
+      - source: nginx_config_template
+        target: /etc/nginx/templates/example.conf.template
     environment:
       - SERVER_NAME=${SERVER_NAME}
     depends_on:
@@ -53,8 +55,8 @@ services:
         condition: any
       resources:
         limits:
-          cpus: "0.2"
-          memory: 100M
+          cpus: "0.4"
+          memory: 200M
         reservations:
           cpus: "0.1"
           memory: 50M
@@ -145,10 +147,8 @@ volumes:
     driver_opts:
         type: nfs
         o: nfsvers=4,addr=nfs-server,nolock,soft,rw
-        device: ":/data/volume/prod/${APP_TAG}/laravel-project"
-  nginx_config:
-    driver: local
-    driver_opts:
-        type: nfs
-        o: nfsvers=4,addr=nfs-server,nolock,soft,rw
-        device: ":/data/volume/prod/${APP_TAG}/config"
+        device: ":/data/volume/prod/${APP_TAG}"
+
+configs:
+  nginx_config_template:
+    external: true
