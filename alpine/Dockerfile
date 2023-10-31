@@ -38,6 +38,13 @@ COPY ./laravel/php-configure.sh /
 RUN /php-configure.sh && rm -rf /php-configure.sh
 RUN docker-php-ext-install gd
 
+# build extensions
+RUN apk add --no-cache pcre-dev $PHPIZE_DEPS \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del pcre-dev ${PHPIZE_DEPS} \
+    && rm -rf /tmp/pear 
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

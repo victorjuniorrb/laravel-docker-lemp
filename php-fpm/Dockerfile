@@ -19,9 +19,6 @@ RUN apt-get update && apt-get install -y \
     jpegoptim optipng pngquant gifsicle \
     curl locales ${PGSQL_DEP}
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
 ARG PDO
 ARG DOCKER_IMAGE_VERSION
 
@@ -30,6 +27,15 @@ RUN docker-php-ext-install ${PDO} zip exif pcntl
 COPY ./laravel/php-configure.sh /
 RUN /php-configure.sh && rm -rf /php-configure.sh
 RUN docker-php-ext-install gd
+
+# # build extensions
+RUN apt-get install -y $PHPIZE_DEPS \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && rm -rf /tmp/pear 
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*    
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

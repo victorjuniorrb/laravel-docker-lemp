@@ -45,6 +45,15 @@ services:
         max-file: "5"
     restart: always
 
+  redis:
+    image: docker.io/bitnami/redis:6.2
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    # ports:
+    #   - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+
   nginx:
     image: nginx:${NGINX_VERSION:-latest}
     container_name: nginx
@@ -113,4 +122,5 @@ services:
     restart: always
 
 volumes:
- mysql:
+  mysql:
+  redis_data:
