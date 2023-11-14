@@ -10,7 +10,7 @@
 # sabores de banco de dados
 # mysql | pgsql
 
-REGISTRY="registry.cett.org.br"
+REGISTRY="victorjunior/laravel-docker"
 
 # loop para imagens
 for i in alpine php-fpm; do
@@ -29,10 +29,10 @@ for i in alpine php-fpm; do
                 rm labels com.docker.compose.project
 
             # Trocar TAG para repositório REGISTRY
-            docker tag localbuild/laravel-docker:$i-$p-$d $REGISTRY/laravel-docker:$i-$p-$d
+            docker tag localbuild/laravel-docker:$i-$p-$d $REGISTRY:$i-$p-$d
             
             # push para repositório
-            docker push $REGISTRY/laravel-docker:$i-$p-$d
+            docker push $REGISTRY:$i-$p-$d
 
             # Remover imagen localbuild
             docker image rm localbuild/laravel-docker:$i-$p-$d
