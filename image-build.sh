@@ -33,6 +33,9 @@ for i in alpine php-fpm; do
             
             # push para repositório
             docker push $REGISTRY/laravel-docker:$i-$p-$d
+
+            # Remover imagen localbuild
+            docker image rm localbuild/laravel-docker:$i-$p-$d
         done
     done
 done
