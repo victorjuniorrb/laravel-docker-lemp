@@ -1,4 +1,4 @@
-name: Laravel CI
+name: laravel_build_images
 
 on:
   push:
@@ -19,33 +19,14 @@ on:
       - 'alpine/**'
 
 jobs:
-
   build:
-
+    name: publish image
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker-compose --env-file build-env-files/php-fpm/8/.env-mysql -f build-phpfpm.yml build --pull
-    - name: Bringup the environment
-      run: docker-compose -f .docker-compose.yml-ci --env-file .env up -d
-    - name: Sleep for 30 seconds
-      uses: jakejarvis/wait-action@master
-      with:
-        time: '30s'
-    - name: List all containers
-      run: docker ps -a
-    - name: Testing connection to laravel
-      run: docker-compose -f .docker-compose.yml-ci exec -T laravel curl --retry 10 --retry-connrefused -I http://localhost:3000
-    - uses: anchore/scan-action@v2
-      id: scan
-      with:
-        image: "localbuild/laravel-docker:php80"
-        acs-report-enable: true
-    - name: upload Anchore scan SARIF report
-      uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: ${{ steps.scan.outputs.sarif }}
-    - name: Inspect action SARIF report
-      run: cat ${{ steps.scan.outputs.sarif }}
+    - name: Login
+      run: |
+        echo ${{ secrets.PAT }} | docker login ${{ env.REGISTRY }} -u ${{ env.REGISTRY_USER }} --password-stdin        
+    - name: tag 8.1-fpm-alpine build
+      run: docker-compose --env-file build-env-files/alpine/81/.env-mysql -f build-alpine.yml build --pull
