@@ -24,12 +24,14 @@ build_env_file(){
     : "${MYSQL_PASSWORD:=dev}"
     : "${MYSQL_DATABASE:=laravel}"
     : "${APP_NAME:=Laravel}"
+    : "${APP_ENV:=local}"
+    : "${APP_DEBUG:=true}"
 
     cat << EOF >> /var/www/html/.env
 APP_NAME=$APP_NAME
-APP_ENV=local
+APP_ENV=${APP_ENV}
 APP_KEY=
-APP_DEBUG=true
+APP_DEBUG=${APP_DEBUG}
 APP_URL=http://localhost
 
 LOG_CHANNEL=stack

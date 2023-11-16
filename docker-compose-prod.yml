@@ -12,9 +12,11 @@ services:
       - MYSQL_PASSWORD=${LARAVEL_DB_PASSWORD}
       - MYSQL_DATABASE=${LARAVEL_DB_NAME}
       - LARAVEL_DB_HOST=${LARAVEL_DB_HOST:-db-server.cett.org.br}
-      - FORCE_MIGRATE=force
-      - FORCE_COMPOSER_UPDATE=yes
+      # - FORCE_MIGRATE=force
+      # - FORCE_COMPOSER_UPDATE=yes
       - APP_NAME=${APP_NAME}
+      - APP_ENV=production
+      - APP_DEBUG=false
     logging:
       driver: "json-file"
       options:
