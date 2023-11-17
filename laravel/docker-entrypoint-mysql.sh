@@ -98,9 +98,15 @@ elif [ "$ROLE" = "app" ]; then
         echo "Exposing Laravel..."
         file_env 'FORCE_MIGRATE'
         file_env 'FORCE_COMPOSER_UPDATE'
+        file_env 'APP_ENV'
         if [[ ! -d /var/www/html/vendor ]]; then
-            composer install
-            echo "Composer install"
+            if [[ "$APP_ENV" == "production" ]]; then
+                composer install --no-dev
+                echo "Composer install production"
+            else
+                composer install
+                echo "Composer install dev"
+            fi
         fi
         if [[ ! -d /var/www/html/node_modules ]]; then
             npm install
@@ -121,6 +127,7 @@ elif [ "$ROLE" = "app" ]; then
             php artisan key:generate
             php artisan config:cache
             npm run build
+            php artisan optimize:clear
             php -f /usr/local/bin/wait-mysql.php
         fi
         if [ -z "$FORCE_MIGRATE" ]; then
