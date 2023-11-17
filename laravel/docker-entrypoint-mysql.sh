@@ -21,7 +21,7 @@ file_env() {
 build_env_file(){
     : "${LARAVEL_DB_HOST:=mysql}"
     : "${MYSQL_USER:=app}"
-    : "${MYSQL_PASSWORD:=dev}"
+    : "${MYSQL_PASSWORD:=password}"
     : "${MYSQL_DATABASE:=laravel}"
     : "${APP_NAME:=Laravel}"
     : "${APP_ENV:=local}"
