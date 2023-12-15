@@ -80,6 +80,8 @@ services:
   
   redis:
     image: docker.io/bitnami/redis:6.2
+    networks:
+      - web-private
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     # ports:
