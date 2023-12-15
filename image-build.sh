@@ -13,9 +13,9 @@
 REGISTRY="cettdocker/laravel-docker"
 
 # loop para imagens
-for i in alpine; do
+for i in alpine php-fpm; do
     # loop para php
-    for p in 81; do
+    for p in 74 81; do
         # loop para Banco de Dados
         for d in mysql; do
             # build image
@@ -32,7 +32,7 @@ for i in alpine; do
             docker tag localbuild/laravel-docker:$i-$p-$d $REGISTRY:$i-$p-$d
             
             # push para repositório
-            # docker push $REGISTRY:$i-$p-$d
+            docker push $REGISTRY:$i-$p-$d
 
             # Remover imagen localbuild
             docker image rm localbuild/laravel-docker:$i-$p-$d
