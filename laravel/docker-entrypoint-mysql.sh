@@ -101,7 +101,7 @@ elif [ "$ROLE" = "app" ]; then
         file_env 'APP_ENV'
         if [[ ! -d /var/www/html/vendor ]]; then
             if [[ "$APP_ENV" == "production" ]]; then
-                composer install --optimize-autoloader --no-suggest --no-dev
+                composer install --optimize-autoloader --no-dev
                 echo "Composer install production"
             else
                 composer install
@@ -122,9 +122,9 @@ elif [ "$ROLE" = "app" ]; then
         FILE=/var/www/html/.env
         if ! [ -f "$FILE" ]; then
             build_env_file
-            php artisan key:generate
-            # Clearing cached
             php artisan optimize:clear
+            php artisan key:generate
+            php artisan config:cache
             npm run build
             php -f /usr/local/bin/wait-mysql.php
         fi
