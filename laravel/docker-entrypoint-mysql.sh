@@ -122,17 +122,10 @@ elif [ "$ROLE" = "app" ]; then
         FILE=/var/www/html/.env
         if ! [ -f "$FILE" ]; then
             build_env_file
-            php artisan config:clear
-            php artisan cache:clear
             php artisan key:generate
-	    # cache
-            php artisan config:cache
-	    php artisan event:cache
-	    php artisan route:cache
-	    php artisan view:cache
-	    #
-            npm run build
+            # Clearing cached
             php artisan optimize:clear
+            npm run build
             php -f /usr/local/bin/wait-mysql.php
         fi
         if [ -z "$FORCE_MIGRATE" ]; then
