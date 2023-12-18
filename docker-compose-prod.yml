@@ -4,7 +4,7 @@ services:
   laravel:
     image: ${REGISTRY}:${DOCKER_TAG}
     networks:
-      - web-private
+      - net-private
     volumes:
       - laravel_data:/var/www/html
     environment:
@@ -35,7 +35,7 @@ services:
     image: nginx:${NGINX_VERSION:-latest}
     networks:
       - traefik-public
-      - web-private
+      - net-private
     volumes:
       - laravel_data:/var/www/html:ro
     configs:
@@ -81,7 +81,7 @@ services:
   redis:
     image: docker.io/bitnami/redis:6.2
     networks:
-      - web-private
+      - net-private
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     # ports:
@@ -92,7 +92,7 @@ services:
   scheduler:
     image: ${REGISTRY}:${DOCKER_TAG}
     networks:
-      - web-private
+      - net-private
     volumes:
       - laravel_data:/var/www/html
     environment:
@@ -121,7 +121,7 @@ services:
   queue-default:
     image: ${REGISTRY}:${DOCKER_TAG}
     networks:
-      - web-private
+      - net-private
     volumes:
       - laravel_data:/var/www/html
     environment:
@@ -151,8 +151,7 @@ services:
 networks:
   traefik-public:
     external: true
-  web-private:
-    external: true
+  net-private:
 
 volumes:
   laravel_data:
