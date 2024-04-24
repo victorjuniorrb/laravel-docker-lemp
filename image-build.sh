@@ -15,7 +15,7 @@ REGISTRY="cettdocker/laravel-docker"
 # loop para imagens
 for i in alpine php-fpm; do
     # loop para php
-    for p in 74 81; do
+    for p in 74 81 83; do
         # loop para Banco de Dados
         for d in mysql; do
             # build image
