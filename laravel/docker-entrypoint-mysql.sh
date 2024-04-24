@@ -26,13 +26,13 @@ build_env_file(){
     : "${APP_NAME:=Laravel}"
     : "${APP_ENV:=local}"
     : "${APP_DEBUG:=true}"
-    : "${MAIL_HOST}"
-    : "${MAIL_PORT}"
-    : "${MAIL_USERNAME}"
-    : "${MAIL_PASSWORD}"
-    : "${MAIL_ENCRYPTION}"
-    : "${MAIL_FROM_ADDRESS}"
-    : "${MAIL_FROM_NAME}"
+    : "${MAIL_HOST:=}"
+    : "${MAIL_PORT:=}"
+    : "${MAIL_USERNAME:=}"
+    : "${MAIL_PASSWORD:=}"
+    : "${MAIL_ENCRYPTION:=}"
+    : "${MAIL_FROM_ADDRESS:=}"
+    : "${MAIL_FROM_NAME:=}"
 
     cat << EOF >> /var/www/html/.env
 APP_NAME=$APP_NAME
@@ -67,7 +67,7 @@ MAIL_MAILER=smtp
 MAIL_HOST=$MAIL_HOST
 MAIL_PORT=$MAIL_PORT
 MAIL_USERNAME=$MAIL_USERNAME
-MAIL_PASSWORD=$MAIL_PASSWORDnull
+MAIL_PASSWORD=$MAIL_PASSWORD
 MAIL_ENCRYPTION=$MAIL_ENCRYPTION
 MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS
 MAIL_FROM_NAME=$MAIL_FROM_NAME
