@@ -36,7 +36,7 @@ for i in alpine php-fpm; do
 
             # Remover imagen localbuild
             docker image rm localbuild/laravel-docker:$i-$p-$d
-            docker image rm `docker image ls | grep none | awk '{print $3}'`
+            # docker image rm `docker image ls | grep none | awk '{print $3}'`
         done
     done
 done
