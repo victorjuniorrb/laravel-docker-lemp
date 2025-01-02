@@ -23,7 +23,7 @@ ARG PDO
 ARG DOCKER_IMAGE_VERSION
 
 # Install extensions
-RUN docker-php-ext-install ${PDO} zip exif pcntl
+RUN docker-php-ext-install ${PDO} zip exif pcntl xlswriter
 COPY ./laravel/php-configure.sh /
 RUN /php-configure.sh && rm -rf /php-configure.sh
 RUN docker-php-ext-install gd

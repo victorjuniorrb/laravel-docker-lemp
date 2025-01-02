@@ -40,8 +40,8 @@ RUN docker-php-ext-install gd
 
 # build extensions
 RUN apk add --no-cache pcre-dev $PHPIZE_DEPS \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
+    && pecl install redis xlswriter\
+    && docker-php-ext-enable redis xlswriter\
     && apk del pcre-dev ${PHPIZE_DEPS} \
     && rm -rf /tmp/pear 
 
